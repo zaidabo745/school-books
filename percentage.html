@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب النسب المئوية - برنامج توزيع الكتب المدرسية</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <!-- الرأسية -->
+    <div class="header-section">
+        <h1 class="main-title">برنامج توزيع الكتب المدرسية</h1>
+        <p class="subtitle">نظام شامل لحساب وتوزيع الكتب على المدارس</p>
+        <p class="footer-text">تم إنشاء وتطوير البرنامج تحت إشراف إدارة التربية والتعليم بجعلان 2025م</p>
+    </div>
+
+    <!-- أزرار التنقل -->
+    <div class="nav-buttons">
+        <a href="index.html" class="nav-btn">
+            <span class="icon">📚</span>
+            حساب التوزيع
+        </a>
+        <a href="percentage.html" class="nav-btn">
+            <span class="icon">📊</span>
+            حساب النسب المئوية
+        </a>
+    </div>
+
+    <!-- محتوى صفحة النسب المئوية -->
+    <div class="schools-container">
+        <h2 style="text-align: center; color: #2980b9;">حساب النسب المئوية للتوزيع</h2>
+        
+        <div class="school-section">
+            <h3>بيانات التوزيع</h3>
+            <div class="school-inputs">
+                <div class="input-group">
+                    <label>إجمالي عدد الطلاب:</label>
+                    <input type="number" id="totalStudents" placeholder="أدخل إجمالي عدد الطلاب" min="1">
+                </div>
+                <div class="input-group">
+                    <label>عدد الكتب الموزعة:</label>
+                    <input type="number" id="distributedBooks" placeholder="أدخل عدد الكتب الموزعة" min="0">
+                </div>
+                <div class="input-group">
+                    <label>عدد الكراتين المستخدمة:</label>
+                    <input type="number" id="usedBoxes" placeholder="أدخل عدد الكراتين المستخدمة" min="0">
+                </div>
+                <div class="input-group">
+                    <label>إجمالي الكراتين المتاحة:</label>
+                    <input type="number" id="totalBoxes" placeholder="أدخل إجمالي الكراتين المتاحة" min="1">
+                </div>
+            </div>
+        </div>
+
+        <!-- أزرار العمليات -->
+        <div class="action-buttons">
+            <button onclick="calculatePercentages()" class="btn-primary">
+                <span>📊</span>
+                حساب النسب المئوية
+            </button>
+            <button onclick="exportPercentagesToExcel()" class="btn-warning">
+                <span>📤</span>
+                تصدير النسب إلى Excel
+            </button>
+            <button onclick="clearPercentages()" class="btn-danger">
+                <span>🗑️</span>
+                مسح البيانات
+            </button>
+        </div>
+
+        <!-- عرض نتائج النسب المئوية -->
+        <div id="percentageResults" class="results" style="display: none;">
+            <h3>نتائج النسب المئوية</h3>
+            <div id="percentageContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let percentageData = {};
+
+        function calculatePercentages() {
+            const totalStudents = parseInt(document.getElementById('totalStudents').value) || 0;
+            const distributedBooks = parseInt(document.getElementById('distributedBooks').value) || 0;
+            const usedBoxes = parseInt(document.getElementById('usedBoxes').value) || 0;
+            const totalBoxes = parseInt(document.getElementById('totalBoxes').value) || 0;
+
+            if (totalStudents === 0 || totalBoxes === 0) {
+                alert('يرجى إدخال جميع البيانات المطلوبة');
+                return;
+            }
+
+            // حساب النسب المئوية
+            const distributionPercentage = ((distributedBooks / totalStudents) * 100).toFixed(2);
+            const boxUsagePercentage = ((usedBoxes / totalBoxes) * 100).toFixed(2);
+            const remainingBooks = totalStudents - distributedBooks;
+            const remainingBoxes = totalBoxes - usedBoxes;
+            const remainingPercentage = ((remainingBooks / totalStudents) * 100).toFixed(2);
+
+            percentageData = {
+                totalStudents,
+                distributedBooks,
+                usedBoxes,
+                totalBoxes,
+                distributionPercentage,
+                boxUsagePercentage,
+                remainingBooks,
+                remainingBoxes,
+                remainingPercentage
+            };
+
+            displayPercentageResults();
+        }
+
+        function displayPercentageResults() {
+            const resultsDiv = document.getElementById('percentageResults');
+            const content = document.getElementById('percentageContent');
+
+            const resultsHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; border-right: 4px solid #27ae60;">
+                        <h4 style="color: #27ae60; font-size: 1.3rem; margin-bottom: 15px;">نسبة التوزيع</h4>
+                        <p><strong>الكتب الموزعة:</strong> ${percentageData.distributedBooks} كتاب</p>
+                        <p><strong>من إجمالي:</strong> ${percentageData.totalStudents} طالب</p>
+                        <p style="font-size: 1.4rem; color: #27ae60;"><strong>النسبة: ${percentageData.distributionPercentage}%</strong></p>
+                    </div>
+
+                    <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; border-right: 4px solid #2196f3;">
+                        <h4 style="color: #2196f3; font-size: 1.3rem; margin-bottom: 15px;">نسبة استخدام الكراتين</h4>
+                        <p><strong>الكراتين المستخدمة:</strong> ${percentageData.usedBoxes} كرتون</p>
+                        <p><strong>من إجمالي:</strong> ${percentageData.totalBoxes} كرتون</p>
+                        <p style="font-size: 1.4rem; color: #2196f3;"><strong>النسبة: ${percentageData.boxUsagePercentage}%</strong></p>
+                    </div>
+
+                    <div style="background: #fff3e0; padding: 20px; border-radius: 10px; border-right: 4px solid #ff9800;">
+                        <h4 style="color: #ff9800; font-size: 1.3rem; margin-bottom: 15px;">الكتب المتبقية</h4>
+                        <p><strong>عدد الكتب المتبقية:</strong> ${percentageData.remainingBooks} كتاب</p>
+                        <p><strong>الكراتين المتبقية:</strong> ${percentageData.remainingBoxes} كرتون</p>
+                        <p style="font-size: 1.4rem; color: #ff9800;"><strong>النسبة المتبقية: ${percentageData.remainingPercentage}%</strong></p>
+                    </div>
+                </div>
+
+                <div style="background: #3498db; color: white; padding: 20px; margin: 20px 0; border-radius: 10px; text-align: center;">
+                    <h4 style="font-size: 1.4rem; margin-bottom: 15px;">ملخص التوزيع</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div>
+                            <p style="font-size: 1.1rem; margin: 5px 0;"><strong>إجمالي الطلاب:</strong></p>
+                            <p style="font-size: 1.3rem; font-weight: bold;">${percentageData.totalStudents}</p>
+                        </div>
+                        <div>
+                            <p style="font-size: 1.1rem; margin: 5px 0;"><strong>الكتب الموزعة:</strong></p>
+                            <p style="font-size: 1.3rem; font-weight: bold;">${percentageData.distributedBooks}</p>
+                        </div>
+                        <div>
+                            <p style="font-size: 1.1rem; margin: 5px 0;"><strong>نسبة الإنجاز:</strong></p>
+                            <p style="font-size: 1.3rem; font-weight: bold;">${percentageData.distributionPercentage}%</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            content.innerHTML = resultsHTML;
+            resultsDiv.style.display = 'block';
+        }
+
+        function exportPercentagesToExcel() {
+            if (!percentageData.totalStudents) {
+                alert('لا توجد بيانات للتصدير. يرجى حساب النسب المئوية أولاً');
+                return;
+            }
+
+            const excelData = [
+                { 'البيان': 'إجمالي عدد الطلاب', 'القيمة': percentageData.totalStudents, 'النسبة المئوية': '100%' },
+                { 'البيان': 'عدد الكتب الموزعة', 'القيمة': percentageData.distributedBooks, 'النسبة المئوية': percentageData.distributionPercentage + '%' },
+                { 'البيان': 'عدد الكتب المتبقية', 'القيمة': percentageData.remainingBooks, 'النسبة المئوية': percentageData.remainingPercentage + '%' },
+                { 'البيان': 'إجمالي الكراتين المتاحة', 'القيمة': percentageData.totalBoxes, 'النسبة المئوية': '100%' },
+                { 'البيان': 'الكراتين المستخدمة', 'القيمة': percentageData.usedBoxes, 'النسبة المئوية': percentageData.boxUsagePercentage + '%' },
+                { 'البيان': 'الكراتين المتبقية', 'القيمة': percentageData.remainingBoxes, 'النسبة المئوية': (100 - parseFloat(percentageData.boxUsagePercentage)).toFixed(2) + '%' }
+            ];
+
+            const worksheet = XLSX.utils.json_to_sheet(excelData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "النسب المئوية");
+
+            worksheet['!cols'] = [{ width: 25 }, { width: 15 }, { width: 20 }];
+
+            const currentDate = new Date().toLocaleDateString('ar-SA');
+            XLSX.writeFile(workbook, `النسب_المئوية_${currentDate}.xlsx`);
+        }
+
+        function clearPercentages() {
+            if (confirm('هل أنت متأكد من مسح جميع البيانات؟')) {
+                document.getElementById('totalStudents').value = '';
+                document.getElementById('distributedBooks').value = '';
+                document.getElementById('usedBoxes').value = '';
+                document.getElementById('totalBoxes').value = '';
+                document.getElementById('percentageResults').style.display = 'none';
+                percentageData = {};
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامج توزيع الكتب المدرسية</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <!-- الرأسية -->
+    <div class="header-section">
+        <h1 class="main-title">برنامج توزيع الكتب المدرسية</h1>
+        <p class="subtitle">نظام شامل لحساب وتوزيع الكتب على المدارس</p>
+        <p class="footer-text">تم إنشاء وتطوير البرنامج تحت إشراف إدارة التربية والتعليم بجعلان 2025م</p>
+    </div>
+
+    <!-- أزرار التنقل -->
+    <div class="nav-buttons">
+        <a href="index.html" class="nav-btn">
+            <span class="icon">📚</span>
+            حساب التوزيع
+        </a>
+        <a href="percentage.html" class="nav-btn">
+            <span class="icon">📊</span>
+            حساب النسب المئوية
+        </a>
+    </div>
+
+    <!-- حاوية المدارس -->
+    <div class="schools-container">
+        <div id="schoolsContainer">
+            <!-- المدرسة الأولى (افتراضية) -->
+            <div class="school-section" data-school-id="1">
+                <h3>المدرسة رقم 1</h3>
+                <div class="school-inputs">
+                    <div class="input-group">
+                        <label>اسم المدرسة:</label>
+                        <input type="text" class="school-name" placeholder="أدخل اسم المدرسة">
+                    </div>
+                    <div class="input-group">
+                        <label>عدد الطلاب:</label>
+                        <input type="number" class="student-count" placeholder="أدخل عدد الطلاب" min="1">
+                    </div>
+                    <div class="input-group">
+                        <label>عدد الكتب في الكرتون:</label>
+                        <input type="number" class="books-per-box" placeholder="أدخل عدد الكتب في الكرتون" min="1">
+                    </div>
+                    <div class="input-group">
+                        <label>نوع الكتاب:</label>
+                        <input type="text" class="book-type" placeholder="مثال: رياضيات، علوم، عربي">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- أزرار العمليات -->
+        <div class="action-buttons">
+            <button onclick="addNewSchool()" class="btn-success">
+                <span>➕</span>
+                إضافة مدرسة جديدة
+            </button>
+            <button onclick="calculateAll()" class="btn-primary">
+                <span>🧮</span>
+                حساب جميع المدارس
+            </button>
+            <button onclick="exportToExcel()" class="btn-warning">
+                <span>📤</span>
+                تصدير إلى Excel
+            </button>
+            <button onclick="clearAll()" class="btn-danger">
+                <span>🗑️</span>
+                مسح الكل
+            </button>
+        </div>
+
+        <!-- عرض النتائج -->
+        <div id="results" class="results" style="display: none;">
+            <h3>نتائج التوزيع</h3>
+            <div id="resultsContent"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
