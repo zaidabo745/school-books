@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - صندوق الجماعة</title>
+    
+    <!-- ربط ملف التنسيقات CSS الخاص بلوحة التحكم -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <!-- ربط خط Cairo من Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- ربط مكتبة Font Awesome للأيقونات (ضرورية للأيقونات) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        
+        <!-- ==================== القائمة الجانبية (Sidebar) ==================== -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-box-open"></i> صندوق الجماعة</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <!-- الرابط النشط حالياً -->
+                    <li class="active"><a href="dashboard.html"><i class="fas fa-tachometer-alt fa-fw"></i> لوحة التحكم</a></li>
+                    <li><a href="#"><i class="fas fa-users fa-fw"></i> الأعضاء</a></li>
+                    <li><a href="#"><i class="fas fa-hand-holding-usd fa-fw"></i> المساهمات</a></li>
+                    <li><a href="#"><i class="fas fa-hands-helping fa-fw"></i> المساعدات</a></li>
+                    <li><a href="#"><i class="fas fa-file-invoice-dollar fa-fw"></i> القروض</a></li>
+                    <li><a href="#"><i class="fas fa-user-shield fa-fw"></i> إدارة المستخدمين</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="index.html"><i class="fas fa-sign-out-alt fa-fw"></i> تسجيل الخروج</a>
+            </div>
+        </aside>
+
+        <!-- ==================== المحتوى الرئيسي (Main Content) ==================== -->
+        <main class="main-content">
+            
+            <!-- ترويسة المحتوى -->
+            <header class="main-header">
+                <h2>لوحة التحكم الرئيسية</h2>
+                <div class="user-info">
+                    <span>مرحباً, <strong>المشرف</strong></span>
+                </div>
+            </header>
+            
+            <!-- بطاقات الملخص السريع -->
+            <section class="summary-cards">
+                <div class="card">
+                    <div class="card-icon" style="background-color: #e6f3ff;">
+                        <i class="fas fa-users" style="color: #007bff;"></i>
+                    </div>
+                    <div class="card-info">
+                        <h4>إجمالي الأعضاء</h4>
+                        <p>52</p> <!-- بيانات وهمية مؤقتاً -->
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background-color: #e4f8f0;">
+                        <i class="fas fa-wallet" style="color: #28a745;"></i>
+                    </div>
+                    <div class="card-info">
+                        <h4>مساهمات الشهر</h4>
+                        <p>١٢,٥٠٠ ريال</p> <!-- بيانات وهمية مؤقتاً -->
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background-color: #fff4e5;">
+                        <i class="fas fa-money-bill-wave" style="color: #ffc107;"></i>
+                    </div>
+                    <div class="card-info">
+                        <h4>القروض النشطة</h4>
+                        <p>8</p> <!-- بيانات وهمية مؤقتاً -->
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background-color: #fdeeee;">
+                        <i class="fas fa-hands-helping" style="color: #dc3545;"></i>
+                    </div>
+                    <div class="card-info">
+                        <h4>إجمالي المساعدات</h4>
+                        <p>٧,٠٠٠ ريال</p> <!-- بيانات وهمية مؤقتاً -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- قسم الأنشطة الأخيرة -->
+            <section class="recent-activity">
+                <h3>أحدث العمليات</h3>
+                <div class="activity-table-container">
+                    <!-- سيتم وضع جدول حقيقي هنا لاحقاً باستخدام JavaScript -->
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>نوع العملية</th>
+                                <th>اسم العضو</th>
+                                <th>المبلغ</th>
+                                <th>التاريخ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="tag contribution">مساهمة</span></td>
+                                <td>عبدالله محمد</td>
+                                <td>٢٥٠ ريال</td>
+                                <td>٠٤-٠٨-٢٠٢٥</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tag loan">قرض</span></td>
+                                <td>سالم علي</td>
+                                <td>٢,٠٠٠ ريال</td>
+                                <td>٠٣-٠٨-٢٠٢٥</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tag assistance">مساعدة</span></td>
+                                <td>خالد أحمد</td>
+                                <td>٥٠٠ ريال</td>
+                                <td>٠١-٠٨-٢٠٢٥</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+</body>
+  </html>
